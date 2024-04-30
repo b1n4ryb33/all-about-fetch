@@ -12,17 +12,18 @@ import "@fortawesome/fontawesome-free/js/solid";
 import "@fortawesome/fontawesome-free/js/regular";
 import "@fortawesome/fontawesome-free/js/brands";
 
-import { sampleComponent } from "./sample-component/sample-component";
+import { searchGliphy } from "./gliphy-client/gliphy-client";
 
-function component() {
-    const element = document.createElement('div');
-    let sampleComponentTest = sampleComponent();
-    element.innerHTML = sampleComponentTest.sayHello();
-  
-    return element;
-  
-  }
-  
+searchGliphy("dogs").then(function(data){
+    console.dir(data);
+    let img = document.querySelector('img#dog-img');
+    img.src = data.data.images.original.url;
+}).then(function(response){
+    console.dir(response);
+});
 
+searchGliphy().then(function(data){
+    let img = document.querySelector('img#cat-img');
+    img.src = data.data.images.original.url;
+});
 
-  document.body.appendChild(component());
