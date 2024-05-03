@@ -14,16 +14,31 @@ import "@fortawesome/fontawesome-free/js/brands";
 
 import { searchGliphy } from "./gliphy-client/gliphy-client";
 
-searchGliphy("dogs").then(function(data){
-    console.dir(data);
-    let img = document.querySelector('img#dog-img');
-    img.src = data.data.images.original.url;
-}).then(function(response){
-    console.dir(response);
-});
+    searchGliphy("dogs").then(function(data){
+        let img = document.querySelector('img#dog-img');
+        img.src = data.data.images.original.url;
+    }).catch(error => {
+        document.querySelector('.search-error-message').textContent = error.message;}
+    );
 
-searchGliphy().then(function(data){
-    let img = document.querySelector('img#cat-img');
-    img.src = data.data.images.original.url;
-});
+    searchGliphy().then(function(data){
+        let img = document.querySelector('img#cat-img');
+        img.src = data.data.images.original.url;
+    }).catch(error => {
+        document.querySelector('.search-error-message').textContent = error.message;}
+    );;
+    
+
+
+document.querySelector('#refrehs-btn').addEventListener("click", () => {
+    let search = document.querySelector('#search-text').value;
+    searchGliphy(search).then(function(data){
+            let img = document.querySelector('img#search-img');
+            img.src = data.data.images.original.url;
+        }).catch(error => {
+            document.querySelector('.search-error-message').textContent = error.message;}
+        ); 
+})
+
+
 
