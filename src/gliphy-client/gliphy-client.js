@@ -16,6 +16,21 @@ function searchGliphy(search = "cats") {
     });
 }
 
+async function searchGliphyA(search = "cats"){
+  try{
+    const encodedSearch = encodeURIComponent(search);
+    
+    const response = await fetch(`${BASE_URL}translate?api_key=${GLIPHY_API_KEY}&s=${encodedSearch}`, {
+      mode: 'cors'
+    });
+
+    let result = await validateResponseA(response);
+    return result;
+  } catch (error){
+    console.error("Error fetching data: ", error.message);
+  }
+}
+
 function validateResponse(response) {
   if (!response.ok) {
     throw new Error(`HTTP error! Status: ${response.status}`);
@@ -29,6 +44,22 @@ function validateResponse(response) {
 }
 
 
+async function validateResponseA(response){
+ 
+  if (!response.ok) {
+    throw new Error(`HTTP error! Status: ${response.status}`);
+  }
+
+  let responseJson = await response.json();
+  let data = responseJson.data;
+  
+  if (data.data && data.data.length === 0) {
+    throw new Error("No results found.");
+  }
+  
+  return responseJson;
+}
 
 
-export { searchGliphy };
+
+export { searchGliphy, searchGliphyA };
